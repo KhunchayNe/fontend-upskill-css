@@ -5,22 +5,27 @@
   <div class="space-y-4">
     <div class="flex justify-between">
       <span class="text-gray-600 font-medium">Name:</span>
-      <span class="text-gray-900">{{ user.name }}</span>
+      <span class="text-gray-900">{{ user?.firstName }}  {{user?.lastName}}</span>
+    </div>
+
+    <div class="flex justify-between">
+      <span class="text-gray-600 font-medium">Student ID:</span>
+      <span class="text-gray-900">{{ user?.studentId }}</span>
     </div>
 
     <div class="flex justify-between">
       <span class="text-gray-600 font-medium">Email:</span>
-      <span class="text-gray-900">{{ user.email }}</span>
+      <span class="text-gray-900">{{ user?.email }}</span>
     </div>
 
     <div class="flex justify-between">
       <span class="text-gray-600 font-medium">Role:</span>
-      <span class="text-gray-900">{{ user.role }}</span>
+      <span class="text-gray-900">{{ user?.role }}</span>
     </div>
 
     <div class="flex justify-between">
       <span class="text-gray-600 font-medium">Joined:</span>
-      <span class="text-gray-900">{{ user.joinedAt }}</span>
+      <span class="text-gray-900">{{ user?.createdAt }}</span>
     </div>
   </div>
 
