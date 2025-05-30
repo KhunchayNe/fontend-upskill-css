@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ApiService {
-  private API_URL = 'https://your.api.url/api'; // เปลี่ยนเป็น API จริง
+  private API_URL = 'http://localhost:3000'; // เปลี่ยนเป็น API จริง
 
   constructor(private http: HttpClient) {}
 

@@ -16,27 +16,27 @@ export class AuthService {
 
   login(email: string, password: string): Observable<{ token: string }> {
 
-    if (email ==='admin' && password === 'admin') {
-      localStorage.setItem(this.tokenKey, 'admin-token');
-      this._isLoggedIn.next(true);
-      return new Observable((observer) => {
-        observer.next({ token: 'admin-token' });
-        observer.complete();
-      });
-    }
-    // Fallback return for non-admin credentials
-    return new Observable((observer) => {
-      observer.error({ message: 'Invalid credentials' });
-    });
-
-    // return this.api
-    //   .post<{ token: string }>('auth/login', { email, password })
-    //   .pipe(
-    //     tap((res) => {
-    //       localStorage.setItem(this.tokenKey, res.token);
-    //       this._isLoggedIn.next(true);
-    //     })
-    //   );
+    // if (email ==='admin' && password === 'admin') {
+    //   localStorage.setItem(this.tokenKey, 'admin-token');
+    //   this._isLoggedIn.next(true);
+    //   return new Observable((observer) => {
+    //     observer.next({ token: 'admin-token' });
+    //     observer.complete();
+    //   });
+    // }
+    // // Fallback return for non-admin credentials
+    // return new Observable((observer) => {
+    //   observer.error({ message: 'Invalid credentials' });
+    // });
+    console.log('Login attempt:', email, password);
+    return this.api
+      .post<{ token: string }>('auth/login', { email, password })
+      .pipe(
+        tap((res) => {
+          localStorage.setItem(this.tokenKey, res.token);
+          this._isLoggedIn.next(true);
+        })
+      );
   }
 
   logout() {
