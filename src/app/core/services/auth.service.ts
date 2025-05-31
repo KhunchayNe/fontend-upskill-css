@@ -33,4 +33,15 @@ export class AuthService {
   get token(): string | null {
     return localStorage.getItem(this.tokenKey);
   }
+
+  register(data: any): Observable<{ token: string }> {
+    return this.api
+      .post<{ token: string }>('users', data)
+      .pipe(
+        tap((res) => {
+          localStorage.setItem(this.tokenKey, res.token);
+          this._isLoggedIn.next(true);
+        })
+      );
+  }
 }

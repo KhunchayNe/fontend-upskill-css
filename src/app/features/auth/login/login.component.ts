@@ -36,4 +36,9 @@ export class LoginComponent {
       },
     });
   }
+
+  naviateTo(path: string) {
+    // Implement navigation to the specified path
+    this.router.navigate([path]);
+  }
 }

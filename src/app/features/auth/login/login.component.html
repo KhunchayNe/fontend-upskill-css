@@ -43,5 +43,13 @@
     <div *ngIf="error" class="mt-4 text-red-600 text-sm text-center">
       {{ error }}
     </div>
+
+    <!-- Register Link -->
+    <div class="mt-4 text-center">
+      <p class="text-sm text-gray-600">
+        Don't have an account?
+        <a (click)="naviateTo('/register')" class="text-blue-600 hover:underline font-medium">Register here</a>
+      </p>
+    </div>
   </form>
 </div>
