@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { CategoryService } from '../../core/services/category.service';
 import Swal from 'sweetalert2';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-category',
@@ -13,7 +14,7 @@ import Swal from 'sweetalert2';
   styleUrl: './category.component.css',
 })
 export class CategoryComponent {
-  constructor(private categoryService: CategoryService) {}
+  constructor(private categoryService: CategoryService, private authService: AuthService) {}
   categories: Category[] = [];
   loading = true;
 
@@ -26,7 +27,12 @@ export class CategoryComponent {
     // For now, we'll just use the mock data that's already defined
     // In a real application, you would replace this with an API call:
     console.log('Fetching categories...');
-    this.categoryService.getCategoriesByUser(1).subscribe({
+    const userId = this.authService.getUserId();
+    if (!userId) {
+      this.loading = false;
+      return;
+    }
+    this.categoryService.getCategoriesByUser(userId).subscribe({
       next: (data: Category[]) => {
         this.categories = data;
         this.loading = false;
@@ -52,6 +58,11 @@ export class CategoryComponent {
   }
 
   submitForm() {
+    const userId = this.authService.getUserId();
+    if (!userId) {
+      this.loading = false;
+      return;
+    }
     if (this.isEditing) {
       const category = this.categories.find((c) => c.id === this.editingId);
       if (category) {
@@ -70,7 +81,7 @@ export class CategoryComponent {
           .updateCategory(category.id, {
             name: this.name,
             type: this.type,
-            userId: 1,
+            userId,
           })
           .subscribe({
             next: (data: Category) => {
@@ -97,7 +108,7 @@ export class CategoryComponent {
         .createCategory({
           name: this.name,
           type: this.type,
-          userId: 1,
+          userId,
         })
         .subscribe({
           next: (data: Category) => {

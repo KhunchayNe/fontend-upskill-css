@@ -15,7 +15,7 @@ export class CategoryService {
    * @param userId The ID of the user
    * @returns An Observable with the categories data
    */
-  getCategoriesByUser(userId: number): any{
+  getCategoriesByUser(userId: string): any{
     return this.api.get<any>(`categories/user/${userId}`);
   }
 

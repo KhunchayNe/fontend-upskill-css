@@ -16,10 +16,10 @@ export class ProfileComponent {
   loading = true;
   user: User | null = null;
 
-  constructor( private userService: UserService) {}
+  constructor( private userService: UserService, private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.userService.getUserInfo(11).subscribe({
+    this.userService.getUserInfo(this.authService.getUserId()).subscribe({
       next: (user: any) => {
         this.user = user;
         this.loading = false;
