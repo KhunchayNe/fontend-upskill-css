@@ -20,4 +20,9 @@ export class MainLayoutComponent {
     // Example using Angular Router (if injected):
     this.router.navigate(['/profile']);
   }
+
+  naviateTo(path: string) {
+    // Implement navigation to the specified path
+    this.router.navigate([path]);
+  }
 }
