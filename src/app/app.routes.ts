@@ -5,6 +5,7 @@ import { authGuard } from './core/guards/auth.guard';
 import { ProfileComponent } from './features/profile/profile.component';
 import { CategoryComponent } from './features/category/category.component';
 import { RegisterComponent } from './features/auth/register/register.component';
+import { AccountingComponent } from './features/accounting/accounting.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -26,5 +27,10 @@ export const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent
+  },
+  {
+    path: 'accounting',
+    canActivate: [authGuard],
+    component: AccountingComponent,
   }
 ];
