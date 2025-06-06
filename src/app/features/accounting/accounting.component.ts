@@ -5,6 +5,8 @@ import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { Category } from '../category/interfaces/category.model';
 import { Transaction } from './interfaces/transaction.model';
 import { Goal } from './interfaces/goal.model';
+import { AuthService } from '../../core/services/auth.service';
+import { CategoryService } from '../../core/services/category.service';
 
 @Component({
   selector: 'app-accounting',
@@ -14,22 +16,31 @@ import { Goal } from './interfaces/goal.model';
 })
 export class AccountingComponent {
   date: string = new Date().toISOString().split('T')[0]; // Initialize with current date
-  categories: Category[] = [
-    {
-      id: 1,
-      name: 'อาหาร',
-      type: 'expense',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    },
-    {
-      id: 2,
-      name: 'เงินเดือน',
-      type: 'income',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    },
-  ];
+  constructor(
+    private authService: AuthService,
+    private categoryService: CategoryService
+  ) {}
+  categories: Category[] = [];
+
+  ngOnInit() {
+    this.fetchCategories();
+  }
+
+  fetchCategories() {
+    const userId = this.authService.getUserId();
+    if (!userId) {
+      return;
+    }
+    this.categoryService.getCategoriesByUser(userId).subscribe({
+      next: (data: Category[]) => {
+        console.log('Fetched categories:', data);
+        this.categories = data;
+      },
+      error: (error: unknown) => {
+        console.error('Error fetching categories:', error);
+      },
+    });
+  }
 
   selectedCategoryId: number = 1;
   amount: number = 0;
@@ -55,11 +66,19 @@ export class AccountingComponent {
       updatedAt: new Date().toISOString(),
     };
 
+    console.log('Adding transaction:', newItem);
+
     this.transactions.unshift(newItem);
     this.note = '';
     this.amount = 0;
+    console.log(' this.categories', this.categories);
+    const cat = this.categories.find((c) => c.id == newItem.categoryId);
 
-    const cat = this.categories.find((c) => c.id === newItem.categoryId);
+    if (!cat) {
+      console.error('Category not found for transaction:', newItem);
+      return;
+    }
+    console.log('Category found:', cat);
     if (cat?.type === 'income') {
       this.goal.currentAmount += newItem.amount;
     } else {
@@ -83,7 +102,7 @@ export class AccountingComponent {
   }
 
   getCategoryName(id: number): string {
-    return this.categories.find((c) => c.id === id)?.name ?? 'N/A';
+    return this.categories.find((c) => c.id == id)?.name ?? 'N/A';
   }
 
   isIncome(tx: Transaction): boolean {
