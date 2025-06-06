@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 
-<div class="max-w-4xl mx-auto mt-10 space-y-8">
+<div class="max-w-4xl mx-auto mt-10 space-y-8"  *ngIf="!loading">
   <!-- 🧾 Add Transaction -->
   <div class="bg-white p-6 rounded-xl shadow">
     <h2 class="text-xl font-bold mb-4 text-blue-600">เพิ่มรายการบัญชี</h2>
@@ -86,18 +86,20 @@
 
   <!-- 🎯 Goal -->
   <div class="bg-gray-100 p-4 rounded">
-    <p class="font-medium mb-1">🎯 เป้าหมาย: {{ goal.name }}</p>
+    <p class="font-medium mb-1">🎯 เป้าหมาย: {{ goal.goalName }}</p>
     <div class="w-full h-3 bg-gray-300 rounded">
       <div
         class="h-3 bg-green-500 rounded"
         [style.width.%]="getGoalProgress()"
       ></div>
     </div>
-    <p class="text-sm text-gray-600 mt-1">
+    <!-- <p class="text-sm text-gray-600 mt-1">
       {{ goal.currentAmount | currency : "THB" }} /
-      {{ goal.targetAmount | currency : "THB" }} (ก่อน
+      {{ goal.amountTarget | currency : "THB" }} (ก่อน
       {{ goal.dueDate | date : "longDate" }})
-    </p>
+    </p> -->
+    <p class="text-sm text-gray-600 mt-1">
+      {{ advice }}
   </div>
 
   <!-- 📄 History Table -->

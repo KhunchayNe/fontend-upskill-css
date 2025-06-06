@@ -1,7 +1,7 @@
 export interface Goal {
   id: number;
-  name: string;
-  targetAmount: number;
+  goalName: string;
+  amountTarget: number;
   currentAmount: number;
   dueDate: string;
 }
